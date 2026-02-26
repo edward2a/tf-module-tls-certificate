@@ -7,7 +7,7 @@ resource "tls_private_key" "main" {
 resource "tls_self_signed_cert" "main" {
     count                                       =   var.type == "SELF_SIGNED" ? 1 : 0
 
-    key_algorithm                               =   tls_private_key.main.algorithm
+    algorithm                                   =   tls_private_key.main.algorithm
     private_key_pem                             =   tls_private_key.main.private_key_pem
 
     subject {
@@ -36,7 +36,7 @@ resource "tls_self_signed_cert" "main" {
 resource "tls_cert_request" "main" {
     count                                       =   contains(["LOCAL", "THIRD_PARTY"], var.type) ? 1 : 0
 
-    key_algorithm                               =   tls_private_key.main.algorithm
+    algorithm                                   =   tls_private_key.main.algorithm
     private_key_pem                             =   tls_private_key.main.private_key_pem
 
     subject {
@@ -60,7 +60,6 @@ resource "tls_locally_signed_cert" "main" {
     count                                       =   var.type == "LOCAL" ? 1 : 0
 
     cert_request_pem                            =   tls_cert_request.main[0].cert_request_pem
-    ca_key_algorithm                            =   var.ca_key_algorithm
     ca_private_key_pem                          =   var.ca_private_key_pem
     ca_cert_pem                                 =   var.ca_cert_pem
     validity_period_hours                       =   var.validity_period_hours
