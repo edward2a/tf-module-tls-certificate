@@ -1,8 +1,11 @@
 terraform {
-    required_version    =   "~> 0.12.28"
-    experiments         =   [variable_validation]
+    required_version    =   "~> 1.10.0"
+
+    required_providers {
+        tls = {
+            source = "hashicorp/tls"
+            version             =   "~> 4.2.1"
+        }
+    }
 }
 
-provider tls {
-    version             =   "~> 2.2.0"
-}
