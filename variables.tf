@@ -3,7 +3,7 @@ variable "algorithm" {
     default             =   "RSA"
     
     validation {
-        condition       =   contains(["RSA", "ECDSA"], var.algorithm)
+        condition       =   contains(["RSA", "ECDSA", "ED25519"], var.algorithm)
         error_message   =   "The CA key algorithm must be one of RSA, ECDSA."
     }
 }
@@ -121,11 +121,6 @@ variable "is_ca_certificate" {
 variable "set_subject_key_id" {
     type                =   bool
     default             =   false
-}
-
-variable "ca_key_algorithm" {
-    type                =   string
-    default             =   null
 }
 
 variable "ca_private_key_pem" {
