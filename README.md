@@ -2,6 +2,41 @@
 Terraform configuration for a TLS certificate
 (provided by https://github.com/tombotch)
 
+## Sample
+NOTE: You will need to add some file resources (local_file provider) to output the certs to the filesystem.
+```
+module "ca_cert" {
+  source = "git::https://github.com/edward2a/tf-module-tls-certificate?ref=master"
+
+  organization = "Local Labs"
+  country = "UK"
+  is_ca_certificate = true
+  allowed_uses = [
+    "digital_signature",
+    "cert_signing",
+    "crl_signing",
+    "any_extended",
+    "ocsp_signing"
+  ]
+}
+
+module "server_cert" {
+  source = "git::https://github.com/edward2a/tf-module-tls-certificate?ref=master"
+
+  type = "LOCAL"
+  ca_private_key_pem = module.ca_cert.private_key_pem
+  ca_cert_pem = module.ca_cert.cert_pem
+
+  common_name = "*.example.local"
+  organization = "Local Labs"
+  country = "UK"
+  dns_names = [
+    "*.example.local",
+    "*.dev.example.local"
+  ]
+}
+```
+
 ## Variables
 | Name | Type | Description | Required | Default | Permitted values |
 | ---- | ---- | ----------- | -------- | ------- | ---------------- |
