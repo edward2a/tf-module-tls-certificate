@@ -5,3 +5,6 @@
 .terraform
 *.tfstate
 *.out
+
+# vim
+*.swp
